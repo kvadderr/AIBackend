@@ -14,6 +14,11 @@ export class GenController {
     return this.genService.create(createGenDto);
   }
 
+  @Post('/faceSwap')
+  faceSwap(@Body() createGenDto: any) {
+    return this.genService.faceSwap(createGenDto);
+  }
+
   @Get()
   findAll() {
     return this.genService.findAll();
@@ -47,6 +52,7 @@ export class GenController {
     }),
   )
   async local(@UploadedFile() file: Express.Multer.File) {
+    console.log('file', file);
     return {
       statusCode: 200,
       data: file.originalname,

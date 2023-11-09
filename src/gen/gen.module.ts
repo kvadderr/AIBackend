@@ -7,5 +7,6 @@ import { HttpModule } from '@nestjs/axios';
   imports: [HttpModule],
   controllers: [GenController],
   providers: [GenService],
+  exports: [GenService]
 })
 export class GenModule {}

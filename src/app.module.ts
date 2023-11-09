@@ -10,7 +10,8 @@ import { ConfigurationModule } from './configuration/configuration.module';
 
 import { Collection } from './collection/entities/collection.entity';
 import { GenModule } from './gen/gen.module';
-
+import { BotService } from './bot/bot.service';
+import { AppController } from './app.controller';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -21,7 +22,7 @@ import { GenModule } from './gen/gen.module';
     ConfigurationModule,
     GenModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [BotService],
 })
 export class AppModule {}

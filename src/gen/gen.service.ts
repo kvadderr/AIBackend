@@ -65,13 +65,13 @@ export class GenService {
         "controlnet": {
           "args": [
             {
+              "module": "openpose",
+              "model": "control_v11p_sd15_openpose [cab727d4]"
+            },
+            {
               "module": "inpaint",
               "model": "control_v11p_sd15_inpaint [ebff9138]"
             },
-            {
-              "module": "openpose",
-              "model": "control_v11p_sd15_openpose [cab727d4]"
-            }
           ]
         }
       }

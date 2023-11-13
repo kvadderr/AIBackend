@@ -67,6 +67,10 @@ export class GenService {
             {
               "module": "inpaint",
               "model": "control_v11p_sd15_inpaint [ebff9138]"
+            },
+            {
+              "module": "openpose",
+              "model": "control_v11p_sd15_openpose [cab727d4]"
             }
           ]
         }

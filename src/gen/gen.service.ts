@@ -47,7 +47,7 @@ export class GenService {
       "mask_blur": 0,
       "inpainting_fill": 1,
       "inpaint_full_res": true,
-      "inpaint_full_res_padding": 32,
+      "inpaint_full_res_padding": 132,
       "inpainting_mask_invert": 0,
       "initial_noise_multiplier": 0,
       "prompt": "nude, NSFW",

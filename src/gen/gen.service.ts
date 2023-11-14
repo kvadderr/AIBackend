@@ -61,20 +61,7 @@ export class GenService {
       "include_init_images": false,
       "send_images": true,
       "save_images": false,
-      "alwayson_scripts": {
-        "controlnet": {
-          "args": [
-            {
-              "module": "openpose",
-              "model": "control_v11p_sd15_openpose [cab727d4]"
-            },
-            {
-              "module": "inpaint",
-              "model": "control_v11p_sd15_inpaint [ebff9138]"
-            },
-          ]
-        }
-      }
+      "alwayson_scripts": {}
     }
     const response = await this.httpService.post(requestURL, requestData).toPromise();
     const data = response.data.images[0];

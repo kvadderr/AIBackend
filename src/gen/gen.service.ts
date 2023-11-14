@@ -44,7 +44,7 @@ export class GenService {
       "denoising_strength": 0.75,
       "image_cfg_scale": 7,
       "mask": mask,
-      "mask_blur": 1,
+      "mask_blur": 0,
       "inpainting_fill": 1,
       "inpaint_full_res": true,
       "inpaint_full_res_padding": 132,

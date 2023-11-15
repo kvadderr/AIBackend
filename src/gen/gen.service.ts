@@ -73,7 +73,7 @@ export class GenService {
     const requestData = {
       "input_image": image,
       "mask": mask,
-      "dilate_amount": 20
+      "dilate_amount": 40
     }
     const response = await this.httpService.post(requestURL, requestData).toPromise();
     const data = response.data.mask;
@@ -87,7 +87,7 @@ export class GenService {
       "input_image": image,
       "dino_enabled": true,
       "dino_model_name": "GroundingDINO_SwinT_OGC (694MB)",
-      "dino_text_prompt": "cloth",
+      "dino_text_prompt": "clothes",
       "dino_box_threshold": 0.3,
       "dino_preview_checkbox": false,
       "dino_preview_boxes_selection": [

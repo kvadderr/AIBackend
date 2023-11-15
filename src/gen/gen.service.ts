@@ -32,10 +32,10 @@ export class GenService {
 
   async create(createGenDto: any) {
     let requestURL = process.env.SDXL_URL + process.env.SDXL_img2img;
-
-    const mask = await this.generateMask(createGenDto.imageName)
     const base64String = await this.imageUrlToBase64('http://62.68.146.39:4000/img/' + createGenDto.imageName);
-    console.log('mask generated!')
+    const mask = await this.generateMaskWithSDXL(base64String)
+    const expandedMask = await this.expandMask(base64String, mask);
+    
     const requestData = {
       "init_images": [base64String],
       "resize_mode": 3,
@@ -43,7 +43,7 @@ export class GenService {
       "height": 512,
       "denoising_strength": 0.75,
       "image_cfg_scale": 7,
-      "mask": mask,
+      "mask": expandedMask,
       "mask_blur": 0,
       "inpainting_fill": 1,
       "inpaint_full_res": true,
@@ -65,6 +65,37 @@ export class GenService {
     }
     const response = await this.httpService.post(requestURL, requestData).toPromise();
     const data = response.data.images[0];
+    return data;
+  }
+
+  async expandMask(image: string, mask: string) {
+    let requestURL = process.env.SDXL_URL + process.env.SDXL_samdilate;
+    const requestData = {
+      "input_image": image,
+      "mask": mask,
+      "dilate_amount": 50
+    }
+    const response = await this.httpService.post(requestURL, requestData).toPromise();
+    const data = response.data.mask;
+    return data;
+  }
+  async generateMaskWithSDXL(image: string) {
+    let requestURL = process.env.SDXL_URL + process.env.SDXL_sampredict;
+
+    const requestData = {
+      "sam_model_name": "sam_vit_h_4b8939.pth",
+      "input_image": image,
+      "dino_enabled": true,
+      "dino_model_name": "GroundingDINO_SwinT_OGC (694MB)",
+      "dino_text_prompt": "cloth",
+      "dino_box_threshold": 0.3,
+      "dino_preview_checkbox": false,
+      "dino_preview_boxes_selection": [
+        0
+      ]
+    }
+    const response = await this.httpService.post(requestURL, requestData).toPromise();
+    const data = response.data.masks[2];
     return data;
   }
 

@@ -73,7 +73,7 @@ export class GenService {
     const requestData = {
       "input_image": image,
       "mask": mask,
-      "dilate_amount": 50
+      "dilate_amount": 20
     }
     const response = await this.httpService.post(requestURL, requestData).toPromise();
     const data = response.data.mask;

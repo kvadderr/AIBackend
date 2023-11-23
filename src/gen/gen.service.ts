@@ -32,9 +32,14 @@ export class GenService {
 
   async createNude(createGenDto: any) {
     let requestURL = process.env.SDXL_URL + process.env.SDXL_img2img;
-    const base64String = createGenDto.mask;
+    let base64String = createGenDto.mask;
     const mask = await this.generateMaskWithSDXL(base64String)
     const expandedMask = await this.expandMask(base64String, mask);
+    if (base64String.startsWith('data:image/jpeg;base64,')) {
+      base64String = base64String.replace('data:image/jpeg;base64,', '');
+    } else if (base64String.startsWith('data:image/png;base64,')) {
+      base64String = base64String.replace('data:image/png;base64,', '');
+    }
     const metadata = await sharp(base64String).metadata();
     const { width, height } = metadata;
     console.log(width)

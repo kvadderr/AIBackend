@@ -51,10 +51,10 @@ export class GenService {
     const requestData = {
       "init_images": [base64String],
       "mask": expandedMask,
-      "resize_mode": 2,
+      "resize_mode": 3,
       "inpainting_fill": 1,
       "inpainting_mask_invert": 0,
-      "inpaint_full_res": 0,
+      "inpaint_full_res": 1,
       "inpaint_full_res_padding": 32,
       "mask_blur": 20,
       "prompt": "nude, NSFW",

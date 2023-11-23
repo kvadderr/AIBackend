@@ -39,6 +39,10 @@ export class GenService {
       base64String = base64String.replace('data:image/jpeg;base64,', '');
     } else if (base64String.startsWith('data:image/png;base64,')) {
       base64String = base64String.replace('data:image/png;base64,', '');
+    } else if (base64String.startsWith('data:image/webp;base64,')) {
+      base64String = base64String.replace('data:image/webp;base64,', '');
+    } else if (base64String.startsWith('data:image/jpg;base64,')) {
+      base64String = base64String.replace('data:image/jpg;base64,', '');
     }
     const buffer = Buffer.from(base64String, 'base64');
     const metadata = await sharp(buffer).metadata();
@@ -47,8 +51,8 @@ export class GenService {
     const requestData = {
       "init_images": [base64String],
       "mask": expandedMask,
-      "resize_mode": 2,
-      "inpainting_fill": 1,
+      "resize_mode": 3,
+      "inpainting_fill": 0,
       "inpainting_mask_invert": 0,
       "inpaint_full_res": 0,
       "inpaint_full_res_padding": 32,
@@ -73,6 +77,10 @@ export class GenService {
       base64String = base64String.replace('data:image/jpeg;base64,', '');
     } else if (base64String.startsWith('data:image/png;base64,')) {
       base64String = base64String.replace('data:image/png;base64,', '');
+    } else if (base64String.startsWith('data:image/webp;base64,')) {
+      base64String = base64String.replace('data:image/webp;base64,', '');
+    } else if (base64String.startsWith('data:image/jpg;base64,')) {
+      base64String = base64String.replace('data:image/jpg;base64,', '');
     }
     const buffer = Buffer.from(base64String, 'base64');
     const metadata = await sharp(buffer).metadata();
@@ -80,8 +88,8 @@ export class GenService {
     const requestData = {
       "init_images": [base64String],
       "mask": expandedMask,
-      "resize_mode": 2,
-      "inpainting_fill": 1,
+      "resize_mode": 3,
+      "inpainting_fill": 0,
       "inpainting_mask_invert": 0,
       "inpaint_full_res": 0,
       "inpaint_full_res_padding": 32,

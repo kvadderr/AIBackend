@@ -47,7 +47,7 @@ export class GenService {
     const requestData = {
       "init_images": [base64String],
       "mask": expandedMask,
-      "resize_mode": 3,
+      "resize_mode": 2,
       "inpainting_fill": 1,
       "inpainting_mask_invert": 0,
       "inpaint_full_res": 0,
@@ -80,7 +80,7 @@ export class GenService {
     const requestData = {
       "init_images": [base64String],
       "mask": expandedMask,
-      "resize_mode": 3,
+      "resize_mode": 2,
       "inpainting_fill": 1,
       "inpainting_mask_invert": 0,
       "inpaint_full_res": 0,

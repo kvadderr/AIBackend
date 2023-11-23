@@ -66,36 +66,31 @@ export class GenService {
 
   async create(createGenDto: any) {
     let requestURL = process.env.SDXL_URL + process.env.SDXL_img2img;
-    const base64String = await this.imageUrlToBase64('http://62.68.146.39:4000/img/' + createGenDto.imageName);
+    let base64String = await this.imageUrlToBase64('http://62.68.146.39:4000/img/' + createGenDto.imageName);
     const mask = await this.generateMaskWithSDXL(base64String)
     const expandedMask = await this.expandMask(base64String, mask);
-    console.log(expandedMask);
+    if (base64String.startsWith('data:image/jpeg;base64,')) {
+      base64String = base64String.replace('data:image/jpeg;base64,', '');
+    } else if (base64String.startsWith('data:image/png;base64,')) {
+      base64String = base64String.replace('data:image/png;base64,', '');
+    }
+    const buffer = Buffer.from(base64String, 'base64');
+    const metadata = await sharp(buffer).metadata();
+    const { width, height } = metadata;
     const requestData = {
       "init_images": [base64String],
-      "resize_mode": 3,
-      "width": 512,
-      "height": 512,
-      "denoising_strength": 0.75,
-      "image_cfg_scale": 7,
       "mask": expandedMask,
-      "mask_blur": 0,
-      "inpainting_fill": 1,
-      "inpaint_full_res": true,
-      "inpaint_full_res_padding": 132,
+      "resize_mode": 3,
+      "inpainting_fill": 0,
       "inpainting_mask_invert": 0,
-      "initial_noise_multiplier": 0,
+      "inpaint_full_res": 0,
+      "inpaint_full_res_padding": 32,
+      "mask_blur": 20,
       "prompt": "nude, NSFW",
-      "batch_size": 1,
+      "width": width,
+      "height": height,
       "steps": 60,
-      "cfg_scale": 7,
-      "override_settings": {},
-      "override_settings_restore_afterwards": false,
-      "script_args": [null, 64, "R-ESRGAN 4x+", 1.5],
-      "sampler_index": "Euler a",
-      "include_init_images": false,
-      "send_images": true,
-      "save_images": false,
-      "alwayson_scripts": {}
+      "sampler_index": "Euler a"
     }
     const response = await this.httpService.post(requestURL, requestData).toPromise();
     const data = response.data.images[0];

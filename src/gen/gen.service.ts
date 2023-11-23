@@ -35,7 +35,6 @@ export class GenService {
     const base64String = createGenDto.mask;
     const mask = await this.generateMaskWithSDXL(base64String)
     const expandedMask = await this.expandMask(base64String, mask);
-    console.log(expandedMask);
     const requestData = {
       "init_images": [base64String],
       "resize_mode": 3,
@@ -45,7 +44,7 @@ export class GenService {
       "image_cfg_scale": 7,
       "mask": expandedMask,
       "mask_blur": 20,
-      "inpainting_fill": 1,
+      "inpainting_fill": 0,
       "inpaint_full_res": true,
       "inpaint_full_res_padding": 132,
       "inpainting_mask_invert": 0,

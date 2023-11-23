@@ -40,7 +40,8 @@ export class GenService {
     } else if (base64String.startsWith('data:image/png;base64,')) {
       base64String = base64String.replace('data:image/png;base64,', '');
     }
-    const metadata = await sharp(base64String).metadata();
+    const buffer = Buffer.from(base64String, 'base64');
+    const metadata = await sharp(buffer).metadata();
     const { width, height } = metadata;
     console.log(width)
     const requestData = {

@@ -35,7 +35,7 @@ export class GenService {
     const base64String = await this.imageUrlToBase64('http://62.68.146.39:4000/img/' + createGenDto.imageName);
     const mask = await this.generateMaskWithSDXL(base64String)
     const expandedMask = await this.expandMask(base64String, mask);
-    
+    console.log(expandedMask);
     const requestData = {
       "init_images": [base64String],
       "resize_mode": 3,
@@ -111,18 +111,6 @@ export class GenService {
           ]
         }
       ],
-      "postprocessing": {
-        "face_restorer_name": "CodeFormer",
-        "codeformer_weight": 0.5,
-        "restorer_visibility": 1,
-        "upscaler_name": "Lanczos",
-        "scale": 4,
-        "inpainting_when": "Before Upscaling/all",
-        "inpainting_options": {
-          "inpainting_steps": 30,
-          "inpainting_denoising_strengh": 0.1
-        }
-      }
     }
     const response = await this.httpService.post(requestURL, opt).toPromise();
     const data = response.data.images[0];

@@ -86,18 +86,20 @@ export class GenService {
     const buffer = Buffer.from(base64String, 'base64');
     const metadata = await sharp(buffer).metadata();
     const { width, height } = metadata;
+    var newWidth = 512;
+    var newHeight = width > height ? (newWidth / width) * height : 512;
     const requestData = {
       "init_images": [base64String],
       "mask": expandedMask,
-      "resize_mode": 3,
+      "resize_mode": 2,
       "inpainting_fill": 0,
       "inpainting_mask_invert": 0,
       "inpaint_full_res": 0,
       "inpaint_full_res_padding": 32,
       "mask_blur": 20,
       "prompt": "nude, NSFW",
-      "width": width,
-      "height": height,
+      "width": newWidth,
+      "height": newHeight,
       "steps": 60,
       "sampler_index": "Euler a"
     }

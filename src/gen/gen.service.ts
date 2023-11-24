@@ -86,8 +86,20 @@ export class GenService {
     const buffer = Buffer.from(base64String, 'base64');
     const metadata = await sharp(buffer).metadata();
     const { width, height } = metadata;
-    var newWidth = 512;
-    var newHeight = width > height ? (newWidth / width) * height : 512;
+
+    // Определяем ориентацию изображения
+    var isHorizontal = width > height;
+    var targetWidth = 512;
+    var targetHeight = 512;
+    // Рассчитываем новые размеры пропорционально
+    var newWidth, newHeight;
+    if (isHorizontal) {
+      newWidth = targetWidth;
+      newHeight = (targetWidth / width) * height;
+    } else {
+      newWidth = (targetHeight / height) * width;
+      newHeight = targetHeight;
+    }
     const requestData = {
       "init_images": [base64String],
       "mask": expandedMask,

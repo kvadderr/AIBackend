@@ -160,21 +160,37 @@ export class GenService {
           "source_img": someData.userFace,
           "faces_index": [
             0
-          ]
+          ],
+          "pre_inpainting": {
+            "inpainting_denoising_strengh": 0,
+            "inpainting_prompt": "Portrait of a [gender]",
+            "inpainting_negative_prompt": "",
+            "inpainting_steps": 20,
+            "inpainting_sampler": "Euler",
+            "inpainting_model": "Current",
+            "inpainting_seed": -1
+          },
+          "swapping_options": {
+            "face_restorer_name": "CodeFormer",
+            "restorer_visibility": 1,
+            "codeformer_weight": 1,
+            "upscaler_name": "string",
+            "improved_mask": false,
+            "color_corrections": false,
+            "sharpen": false,
+            "erosion_factor": 1
+          },
+          "post_inpainting": {
+            "inpainting_denoising_strengh": 0,
+            "inpainting_prompt": "Portrait of a [gender]",
+            "inpainting_negative_prompt": "",
+            "inpainting_steps": 20,
+            "inpainting_sampler": "Euler",
+            "inpainting_model": "Current",
+            "inpainting_seed": -1
+          }
         }
       ],
-      "postprocessing": {
-        "face_restorer_name": "CodeFormer",
-        "codeformer_weight": 0.9,
-        "restorer_visibility": 1,
-        "upscaler_name": "Lanczos",
-        "scale": 4,
-        "inpainting_when": "Before Upscaling/all",
-        "inpainting_options": {
-          "inpainting_steps": 30,
-          "inpainting_denoising_strengh": 0.1
-        }
-      }
     }
     const response = await this.httpService.post(requestURL, opt).toPromise();
     const data = response.data.images[0];

@@ -161,16 +161,34 @@ export class GenService {
           "faces_index": [
             0
           ],
+          "pre_inpainting": {
+            "inpainting_denoising_strengh": 0,
+            "inpainting_prompt": "Portrait of a [gender]",
+            "inpainting_negative_prompt": "",
+            "inpainting_steps": 20,
+            "inpainting_sampler": "Euler",
+            "inpainting_model": "Current",
+            "inpainting_seed": -1
+          },
           "swapping_options": {
             "face_restorer_name": "CodeFormer",
             "restorer_visibility": 1,
             "codeformer_weight": 1,
-            "upscaler_name": "string",
+            "upscaler_name": "Lanczos",
             "improved_mask": false,
             "color_corrections": false,
             "sharpen": false,
             "erosion_factor": 1
           },
+          "post_inpainting": {
+            "inpainting_denoising_strengh": 0,
+            "inpainting_prompt": "Portrait of a [gender]",
+            "inpainting_negative_prompt": "",
+            "inpainting_steps": 20,
+            "inpainting_sampler": "Euler",
+            "inpainting_model": "Current",
+            "inpainting_seed": -1
+          }
         }
       ]
     }

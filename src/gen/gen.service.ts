@@ -163,7 +163,7 @@ export class GenService {
           ],
           "pre_inpainting": {
             "inpainting_denoising_strengh": 0,
-            "inpainting_prompt": "Portrait of a [gender]",
+            "inpainting_prompt": "Portrait of a woman",
             "inpainting_negative_prompt": "",
             "inpainting_steps": 20,
             "inpainting_sampler": "Euler",
@@ -182,7 +182,7 @@ export class GenService {
           },
           "post_inpainting": {
             "inpainting_denoising_strengh": 0,
-            "inpainting_prompt": "Portrait of a [gender]",
+            "inpainting_prompt": "Portrait of a woman",
             "inpainting_negative_prompt": "",
             "inpainting_steps": 20,
             "inpainting_sampler": "Euler",

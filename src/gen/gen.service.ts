@@ -163,18 +163,6 @@ export class GenService {
           ]
         }
       ],
-      "postprocessing": {
-        "face_restorer_name": "CodeFormer",
-        "codeformer_weight": 0.5,
-        "restorer_visibility": 1,
-        "upscaler_name": "Lanczos",
-        "scale": 4,
-        "inpainting_when": "Before Upscaling/all",
-        "inpainting_options": {
-          "inpainting_steps": 30,
-          "inpainting_denoising_strengh": 0.1
-        }
-      }
     }
     const response = await this.httpService.post(requestURL, opt).toPromise();
     const data = response.data.images[0];

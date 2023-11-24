@@ -56,7 +56,7 @@ export class GenService {
       "inpainting_mask_invert": 0,
       "inpaint_full_res": 1,
       "inpaint_full_res_padding": 32,
-      "mask_blur": 20,
+      "mask_blur": 13,
       "prompt": "nude, NSFW",
       "negative_prompt": "cloth, bad anatomy",
       "width": 512,

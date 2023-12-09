@@ -11,7 +11,9 @@ import { ConfigurationModule } from './configuration/configuration.module';
 import { Collection } from './collection/entities/collection.entity';
 import { GenModule } from './gen/gen.module';
 import { BotService } from './bot/bot.service';
+import { BotColorService } from './bot/botcolor.service';
 import { AppController } from './app.controller';
+
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -23,6 +25,6 @@ import { AppController } from './app.controller';
     GenModule,
   ],
   controllers: [AppController],
-  providers: [BotService],
+  providers: [BotService, BotColorService],
 })
 export class AppModule {}

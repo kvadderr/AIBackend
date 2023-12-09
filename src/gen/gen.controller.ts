@@ -24,6 +24,11 @@ export class GenController {
     return this.genService.faceSwap(createGenDto);
   }
 
+  @Post('/colorizePhoto')
+  colorizePhoto(@Body() createGenDto: any) {
+    return this.genService.colorizePhoto(createGenDto);
+  }
+
   @Get()
   findAll() {
     return this.genService.findAll();

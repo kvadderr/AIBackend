@@ -5,7 +5,7 @@ import { Get, Controller, Res, HttpStatus } from '@nestjs/common';
 export class AppController {
   constructor(private botService:BotService) {}
 
-  @Get()
+  @Get("/bot")
   getBotDialog(@Res() res) {
     this.botService.botMessage();
     res.status(HttpStatus.OK).send("Bot service started");

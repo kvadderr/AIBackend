@@ -153,7 +153,7 @@ export class GenService {
 
   async colorizePhoto(someData: any) {
     let requestURL = process.env.SDXL_URL + "deoldify/image";
-    
+
     const requestData =
     {
       "input_image": someData.image,
@@ -244,6 +244,60 @@ export class GenService {
       throw new Error('Failed to generate mask.');
     }
 
+  }
+
+  async generateAnime(someData: any) {
+    let requestURL = process.env.SDXL_URL + process.env.SDXL_txt2img;
+    const buffer = Buffer.from(someData.image, 'base64');
+    const metadata = await sharp(buffer).metadata();
+    const { width, height } = metadata;
+    console.log('metadata', metadata)
+
+    const overrice = someData.isReal ?
+      {
+        "override_settings": {
+          "sd_vae": "vae-ft-mse-840000-ema-pruned_fp16.safetensors",
+          "sd_model_checkpoint": "aniverse_v16Pruned.safetensors [838643492f]"
+        }
+      }
+      :
+      {
+        "override_settings": {
+          "sd_model_checkpoint": "AnythingV5Ink_ink.safetensors [a1535d0a42]"
+        }
+      }
+
+      console.log(overrice)
+    const opt = {
+      overrice,
+      "prompt": "masterpiece, best quality, (colorful), " + someData.prompt + " ((ULTRA HD)),cinematic lighting, ((8K)), <lora:more_details:0.55>",
+      "negative_prompt": "(worst quality:1.4), (low quality:1.4), (monochrome:1.1), fcNeg-neg, bad-hands-5,bad-artist-anime, bad-image-v2-27000,bad_prompt_version2, bad_quality, verybadimagenegative_v1.1-4800, FastNegativeEmbedding, FastNegativeV2, watermark, font, text, username, patreon username, patreon logo, censored, bar censor",
+      "steps": 40,
+      "cfg_scale": 7,
+      "restore_faces": true,
+      "width": width,
+      "height": height,
+      "denoising_strength": 0,
+      "override_settings": {
+        "sd_vae": "vae-ft-mse-840000-ema-pruned_fp16.safetensors",
+        "sd_model_checkpoint": "aniverse_v16Pruned.safetensors [838643492f]"
+      },
+      "alwayson_scripts": {
+        "controlnet": {
+          "args": [
+            {
+              "input_image": someData.image,
+              "module": "canny",
+              "model": "control_v11p_sd15_canny [d14c016b]"
+            }
+          ]
+        }
+      }
+    }
+    const response = await this.httpService.post(requestURL, opt).toPromise();
+    const data = response.data.images[0];
+    console.log('data access');
+    return data;
   }
 
   async generateNSFW() {

@@ -29,6 +29,11 @@ export class GenController {
     return this.genService.colorizePhoto(createGenDto);
   }
 
+  @Post('/animeModule')
+  admimeModule(@Body() createGenDto: any) {
+    return this.genService.generateAnime(createGenDto);
+  }
+
   @Get()
   findAll() {
     return this.genService.findAll();

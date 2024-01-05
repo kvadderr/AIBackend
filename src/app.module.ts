@@ -12,6 +12,7 @@ import { Collection } from './collection/entities/collection.entity';
 import { GenModule } from './gen/gen.module';
 import { BotService } from './bot/bot.service';
 import { BotColorService } from './bot/botcolor.service';
+import { BotAnimeService } from './bot/botAnime';
 import { AppController } from './app.controller';
 
 @Module({
@@ -25,6 +26,6 @@ import { AppController } from './app.controller';
     GenModule,
   ],
   controllers: [AppController],
-  providers: [BotService, BotColorService],
+  providers: [BotService, BotColorService, BotAnimeService],
 })
 export class AppModule {}

@@ -60,7 +60,8 @@ export class GenService {
       "steps": 60,
       "sampler_index": "Euler a",
       "override_settings": {
-        "sd_model_checkpoint": "uberRealisticPornMerge_urpmv13Inpainting.safetensors [fe06753eee]"
+        "sd_model_checkpoint": "uberRealisticPornMerge_urpmv13Inpainting.safetensors [fe06753eee]",
+        "sd_vae": "None"
       },
     }
     const response = await this.httpService.post(requestURL, requestData).toPromise();

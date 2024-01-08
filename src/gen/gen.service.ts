@@ -15,15 +15,11 @@ export class GenService {
   async imageUrlToBase64(url) {
     try {
       const response = await fetch(url);
-
       const blob = await response.arrayBuffer();
-
       const contentType = response.headers.get('content-type');
-
       const base64String = `data:${contentType};base64,${Buffer.from(
         blob,
       ).toString('base64')}`;
-
       return base64String;
     } catch (err) {
       console.log(err);
@@ -62,7 +58,10 @@ export class GenService {
       "width": 512,
       "height": 512,
       "steps": 60,
-      "sampler_index": "Euler a"
+      "sampler_index": "Euler a",
+      "override_settings": {
+        "sd_model_checkpoint": "uberRealisticPornMerge_urpmv13Inpainting.safetensors [fe06753eee]"
+      },
     }
     const response = await this.httpService.post(requestURL, requestData).toPromise();
     const data = response.data.images[0];
@@ -296,7 +295,6 @@ export class GenService {
     }
     const response = await this.httpService.post(requestURL, opt).toPromise();
     const data = response.data.images[0];
-    console.log('data access');
     return data;
   }
 

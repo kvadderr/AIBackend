@@ -261,6 +261,7 @@ export class GenService {
       :
       {
         "override_settings": {
+          "sd_vae": "None",
           "sd_model_checkpoint": "animePastelDream_softBakedVae.safetensors [4be38c1a17]"
         }
       }

@@ -268,7 +268,7 @@ export class GenService {
 
     const opt = {
       overrice,
-      "prompt": "masterpiece, best quality, (colorful), " + someData.prompt + " ((ULTRA HD)),cinematic lighting, ((8K)), <lora:more_details:0.55>",
+      "prompt": someData.prompt,
       "negative_prompt": "(worst quality:1.4), (low quality:1.4), (monochrome:1.1), fcNeg-neg, bad-hands-5,bad-artist-anime, bad-image-v2-27000,bad_prompt_version2, bad_quality, verybadimagenegative_v1.1-4800, FastNegativeEmbedding, FastNegativeV2, watermark, font, text, username, patreon username, patreon logo, censored, bar censor",
       "steps": 40,
       "cfg_scale": 7,

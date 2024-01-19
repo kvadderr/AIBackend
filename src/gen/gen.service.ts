@@ -148,21 +148,8 @@ export class GenService {
     return data;
   }
 
+
   async colorizePhoto(someData: any) {
-    let requestURL = process.env.SDXL_URL + "deoldify/image";
-
-    const requestData =
-    {
-      "input_image": someData.image,
-      "render_factor": 35,
-      "artistic": false
-    }
-    const response = await this.httpService.post(requestURL, requestData).toPromise();
-    const data = response.data.image;
-    return data;
-  }
-
-  async restoreimage(someData: any) {
     const mask = await this.generateStratch(someData.image)
     let requestURL = process.env.SDXL_URL + process.env.SDXL_img2img;
     let requestURLDeodify = process.env.SDXL_URL + "deoldify/image";

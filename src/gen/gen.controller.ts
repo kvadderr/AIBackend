@@ -26,14 +26,14 @@ export class GenController {
 
   @Post('/colorizePhoto')
   colorizePhoto(@Body() createGenDto: any) {
-    return this.genService.restoreimage(createGenDto);
+    return this.genService.colorizePhoto(createGenDto);
   }
 
   @Post('/animeModule')
   admimeModule(@Body() createGenDto: any) {
     return this.genService.generateAnime(createGenDto);
   }
-  
+
   @Post('/local')
   @UseInterceptors(
     FileInterceptor('file', {

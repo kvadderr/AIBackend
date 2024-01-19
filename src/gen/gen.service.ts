@@ -255,7 +255,7 @@ export class GenService {
       {
         "override_settings": {
           "sd_vae": "vae-ft-mse-840000-ema-pruned_fp16.safetensors",
-          "sd_model_checkpoint": "aniverse_v16Pruned.safetensors [838643492f]"
+          "sd_model_checkpoint": "animePastelDream_softBakedVae.safetensors"
         }
       }
       :

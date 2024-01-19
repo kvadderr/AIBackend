@@ -242,7 +242,7 @@ export class GenService {
     const command = `python3 ${pythonScriptPath} --test_path ${image} --GPU -1 --input_size full_size`;
     try {
       return  await this.executePythonScript(command).then((base64Image) => { return base64Image; });
-    } catch (error) { throw new Error('Failed to generate mask.') }
+    } catch (error) { console.log(error); throw new Error('Failed to generate mask.') }
   }
 
   async generateAnime(someData: any) {

@@ -26,35 +26,14 @@ export class GenController {
 
   @Post('/colorizePhoto')
   colorizePhoto(@Body() createGenDto: any) {
-    return this.genService.colorizePhoto(createGenDto);
+    return this.genService.restoreimage(createGenDto);
   }
 
   @Post('/animeModule')
   admimeModule(@Body() createGenDto: any) {
     return this.genService.generateAnime(createGenDto);
   }
-
-  @Get()
-  findAll() {
-    return this.genService.findAll();
-  }
-
-  @Get('/generateMask/:imageName')
-  async generateMask(@Param('imageName') imageName: string) {
-    console.log(imageName);
-    return await this.genService.generateMask(imageName);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGenDto: UpdateGenDto) {
-    return this.genService.update(+id, updateGenDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.genService.remove(+id);
-  }
-
+  
   @Post('/local')
   @UseInterceptors(
     FileInterceptor('file', {

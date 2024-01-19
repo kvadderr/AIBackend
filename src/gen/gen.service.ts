@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateGenDto } from './dto/create-gen.dto';
-import { UpdateGenDto } from './dto/update-gen.dto';
 import { HttpService } from '@nestjs/axios/dist';
 import * as sharp from 'sharp';
-import fs from 'fs';
 
 const { exec } = require('child_process');
 
@@ -165,6 +162,35 @@ export class GenService {
     return data;
   }
 
+  async restoreimage(someData: any) {
+    const mask = await this.generateStratch(someData.image)
+    let requestURL = process.env.SDXL_URL + process.env.SDXL_img2img;
+    let requestURLDeodify = process.env.SDXL_URL + "deoldify/image";
+    const requestData = {
+      "init_images": [someData.image],
+      "mask": mask,
+      "resize_mode": 3,
+      "inpainting_fill": 0,
+      "inpainting_mask_invert": 0,
+      "inpaint_full_res": 1,
+      "inpaint_full_res_padding": 32,
+      "steps": 40,
+      "sampler_index": "Euler a",
+    }
+    const response = await this.httpService.post(requestURL, requestData).toPromise();
+    const dataImage = response.data.images[0];
+    const requestDataDeodify =
+    {
+      "input_image": dataImage,
+      "render_factor": 35,
+      "artistic": false
+    }
+
+    const responseDeodify = await this.httpService.post(requestURLDeodify, requestDataDeodify).toPromise();
+    const dataImageDeodify = responseDeodify.data.image;
+    return dataImageDeodify;
+  }
+
   async faceSwap(someData: any) {
     let requestURL = process.env.SDXL_URL + process.env.SDXL_faceswap;
     const opt = {
@@ -208,7 +234,6 @@ export class GenService {
     }
     const response = await this.httpService.post(requestURL, opt).toPromise();
     const data = response.data.images[0];
-    console.log('data access');
     return data;
   }
 
@@ -219,31 +244,18 @@ export class GenService {
           reject(`Error executing Python script: ${error.message}`);
           return;
         }
-
         const base64Image = stdout.trim();
         resolve(base64Image);
       });
     });
   }
 
-  async generateMask(imageName: string) {
-
-    const pythonScriptPath = 'clothMask/process.py';
-    const imagePath = 'public/img/' + imageName;
-
-    const command = `python3 ${pythonScriptPath} --image ${imagePath}`;
-    console.log(command);
+  async generateStratch(image: string) {
+    const pythonScriptPath = 'stratch/detection.py';
+    const command = `python3 ${pythonScriptPath} --test_path ${image} --GPU -1 --input_size full_size`;
     try {
-      const base64Image = await this.executePythonScript(command).then((base64Image) => {
-        return base64Image;
-      });
-      console.log('Python script output:', base64Image);
-      return base64Image;
-    } catch (error) {
-      console.error(error);
-      throw new Error('Failed to generate mask.');
-    }
-
+      return  await this.executePythonScript(command).then((base64Image) => { return base64Image; });
+    } catch (error) { throw new Error('Failed to generate mask.') }
   }
 
   async generateAnime(someData: any) {
@@ -267,7 +279,6 @@ export class GenService {
         }
       }
 
-      console.log(overrice)
     const opt = {
       overrice,
       "prompt": "masterpiece, best quality, (colorful), " + someData.prompt + " ((ULTRA HD)),cinematic lighting, ((8K)), <lora:more_details:0.55>",
@@ -299,28 +310,5 @@ export class GenService {
     return data;
   }
 
-  async generateNSFW() {
-  }
 
-  generateUniqueImageName(extension) {
-    const timestamp = new Date().getTime(); // Получаем текущую временную метку
-    const randomString = Math.random().toString(36).substring(2, 8); // Генерируем случайную строку из символов a-z и 0-9
-
-    return `${timestamp}_${randomString}.${extension}`;
-  }
-
-  async findAll() {
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} gen`;
-  }
-
-  update(id: number, updateGenDto: UpdateGenDto) {
-    return `This action updates a #${id} gen`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} gen`;
-  }
 }

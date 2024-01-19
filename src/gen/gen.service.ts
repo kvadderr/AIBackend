@@ -239,7 +239,7 @@ export class GenService {
 
   async generateStratch(image: string) {
     const pythonScriptPath = 'stratch/detection.py';
-    const command = `python3 ${pythonScriptPath} --test_path ${image} --GPU -1 --input_size full_size`;
+    const command = `python3 ${pythonScriptPath} --test_path ${image} --GPU 0 --input_size full_size`;
     try {
       return  await this.executePythonScript(command).then((base64Image) => { return base64Image; });
     } catch (error) { console.log(error); throw new Error('Failed to generate mask.') }

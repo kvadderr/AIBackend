@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios/dist';
 import * as sharp from 'sharp';
+const fs = require('fs');
 
 const { exec } = require('child_process');
 
@@ -25,7 +26,7 @@ export class GenService {
 
   async createNude(createGenDto: any) {
     let requestURL = process.env.SDXL_URL + process.env.SDXL_img2img;
-    let base64String = createGenDto.mask;
+    let base64String = createGenDto.image;
     const mask = await this.generateMaskWithSDXL(base64String)
     const expandedMask = await this.expandMask(base64String, mask);
     if (base64String.startsWith('data:image/jpeg;base64,')) {
@@ -44,6 +45,48 @@ export class GenService {
     const requestData = {
       "init_images": [base64String],
       "mask": expandedMask,
+      "resize_mode": 3,
+      "inpainting_fill": 0,
+      "inpainting_mask_invert": 0,
+      "inpaint_full_res": 1,
+      "inpaint_full_res_padding": 32,
+      "mask_blur": 13,
+      "prompt": "nude, NSFW",
+      "negative_prompt": "cloth, bad anatomy",
+      "width": 512,
+      "height": 512,
+      "steps": 60,
+      "sampler_index": "Euler a",
+      "override_settings": {
+        "sd_model_checkpoint": "uberRealisticPornMerge_urpmv13Inpainting.safetensors [fe06753eee]",
+        "sd_vae": "None"
+      },
+    }
+    const response = await this.httpService.post(requestURL, requestData).toPromise();
+    const data = response.data.images[0];
+    return data;
+  }
+
+  async createNudeWithMask(createGenDto: any) {
+    let requestURL = process.env.SDXL_URL + process.env.SDXL_img2img;
+    let base64String = createGenDto.image;
+    const mask = createGenDto.mask;
+    if (base64String.startsWith('data:image/jpeg;base64,')) {
+      base64String = base64String.replace('data:image/jpeg;base64,', '');
+    } else if (base64String.startsWith('data:image/png;base64,')) {
+      base64String = base64String.replace('data:image/png;base64,', '');
+    } else if (base64String.startsWith('data:image/webp;base64,')) {
+      base64String = base64String.replace('data:image/webp;base64,', '');
+    } else if (base64String.startsWith('data:image/jpg;base64,')) {
+      base64String = base64String.replace('data:image/jpg;base64,', '');
+    }
+    const buffer = Buffer.from(base64String, 'base64');
+    const metadata = await sharp(buffer).metadata();
+    const { width, height } = metadata;
+    console.log(width)
+    const requestData = {
+      "init_images": [base64String],
+      "mask": mask,
       "resize_mode": 3,
       "inpainting_fill": 0,
       "inpainting_mask_invert": 0,
@@ -238,10 +281,15 @@ export class GenService {
   }
 
   async generateStratch(image: string) {
+    const timestamp = Date.now();
+    const imagePath = `./stratch/img/${timestamp}.txt`
+    fs.writeFileSync(imagePath, image);
     const pythonScriptPath = 'stratch/detection.py';
-    const command = `python3 ${pythonScriptPath} --test_path ${image} --GPU -1 --input_size full_size`;
+    const command = `python3 ${pythonScriptPath} --test_path ${imagePath} --GPU -1 --input_size full_size`;
     try {
-      return  await this.executePythonScript(command).then((base64Image) => { return base64Image; });
+      const result = await this.executePythonScript(command).then((base64Image) => { return base64Image; });
+      fs.unlinkSync(imagePath);
+      return result;
     } catch (error) { console.log(error); throw new Error('Failed to generate mask.') }
   }
 

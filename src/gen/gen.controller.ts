@@ -19,6 +19,11 @@ export class GenController {
     return this.genService.createNude(createGenDto);
   }
 
+  @Post('/createNudewithMask')
+  createNudeWithMask(@Body() createGenDto: any) {
+    return this.genService.createNudeWithMask(createGenDto);
+  }
+
   @Post('/faceSwap')
   faceSwap(@Body() createGenDto: any) {
     return this.genService.faceSwap(createGenDto);

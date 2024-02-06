@@ -266,7 +266,7 @@ export class GenService {
     const buffer = Buffer.from(base64Image, 'base64');
     fs.writeFileSync(imagePath, buffer);
     const pythonScriptPath = 'clothMask/process.py';
-    const command = `python3 ${pythonScriptPath} --image ${imagePath}`;
+    const command = `python3 ${pythonScriptPath} --image ${imagePath} --cuda`;
     try {
       const result = await this.executePythonScript(command).then((base64Image) => { return base64Image; });
       fs.unlinkSync(imagePath);

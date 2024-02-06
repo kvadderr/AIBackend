@@ -9,6 +9,11 @@ import { UpdateGenDto } from './dto/update-gen.dto';
 export class GenController {
   constructor(private readonly genService: GenService) {}
 
+  @Post()
+  create(@Body() createGenDto: any) {
+    return this.genService.create(createGenDto);
+  }
+
   @Post('/createNude')
   createNude(@Body() createGenDto: any) {
     return this.genService.createNude(createGenDto);

@@ -197,6 +197,17 @@ export class GenService {
           "faces_index": [
             0
           ],
+          "blend_faces": true,
+          "swapping_options": {
+            "face_restorer_name": "CodeFormer",
+            "restorer_visibility": 1,
+            "codeformer_weight": 1,
+            "upscaler_name": "ESRGAN_4x",
+            "improved_mask": false,
+            "color_corrections": false,
+            "sharpen": false,
+            "erosion_factor": 1
+          }
         }
       ]
     }
